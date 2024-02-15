@@ -129,11 +129,12 @@ Specifically, we provide a script that calculates the upper bound values (UB) of
 
 ### How to run the experiments
 
-Open a terminal and move to the folder of this repository.
+Open a terminal and move to the folder of this repository (ros2-end-to-end-distributed)
 
-Run the following command:
+Run the following commands:
 
 ```
+git pull
 python3 main.py
 ```
 
