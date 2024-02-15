@@ -6,28 +6,21 @@ The repository is used to reproduce the evaluation from
 
 for RTAS 2024.
 
-To replicate the experiment in the paper, please follow the instructions below, depending on whether you use the provided VM or install the required packages manually.
+To replicate the experiment in the paper, please follow the instructions to either set up the VM or set up the packages. Afterwards, install Gurobi, and follow the steps on how to run the experiments.
 
 This document is organized as follows:
-<!-- - [End-To-End Timing Analysis](#end-to-end-timing-analysis)
-  - [How to use VM](#how-to-use-vm)
+- [End-To-End Timing Analysis and Optimization of Multi-Executor ROS 2 Systems](#end-to-end-timing-analysis-and-optimization-of-multi-executor-ros-2-systems)
+  - [Setup](#setup)
+    - [(Option 1) How to setup the VM](#option-1-how-to-setup-the-vm)
+    - [(Option 2) How to setup the packages](#option-2-how-to-setup-the-packages)
+    - [Gurobi Installation](#gurobi-installation)
   - [Experiment Overview](#experiment-overview)
     - [How to run the experiments](#how-to-run-the-experiments)
-    - [ROS2 system execution](#ros2-system-execution)
-      - [Case Study](#case-study)
-      - [Evaluation](#evaluation)
-    - [ROS2 system simulation and upper bound analysis](#ros2-system-simulation-and-upper-bound-analysis)
-      - [Case Study](#case-study-1)
-      - [Evaluation](#evaluation-1)
     - [File Structure](#file-structure)
-    - [Overview of the corresponding functions and algorithms](#overview-of-the-corresponding-functions-and-algorithms)
-  - [Environment Setup](#environment-setup)
-    - [Requirements](#requirements)
-    - [Deployment](#deployment)
+    - [Overview of functions and lemmas](#overview-of-functions-and-lemmas)
     - [System and run time details](#system-and-run-time-details)
-  - [Miscellaneous](#miscellaneous)
     - [Authors](#authors)
-    - [Acknowledgments](#acknowledgments) -->
+    - [Acknowledgments](#acknowledgments)
 
 ## (Option 1) How to setup the VM
 
@@ -48,9 +41,10 @@ This document is organized as follows:
 - Start a terminal (Press CTRL+Shift+T) and run the following commands:
 
   ```
+  sudo snap install code --classic
+  sudo apt -y install git python3-pip
+  pip install gurobipy tabulate
   git clone https://github.com/HarunTeper/ros2-end-to-end-distributed.git
-  sudo apt -y install python3-pip
-  pip install gurobipy
   ```
 
 - Follow the instructions in [Gurobi Installation](#gurobi-installation).
@@ -124,14 +118,14 @@ Specifically, we provide a script that calculates the upper bound values (UB) of
 
 | Configuration | UB |
 |---|---|
-| DDS | - |
-| Timer Periods | - |
-| Policy | - |
-| Assignment | - |
-| Fix-Async | - |
-| Fix-Sync | - |
-| Fix-Assign | - |
-| Baseline | - |
+| DDS | 0.671045 |
+| Timer Periods | 0.668146 |
+| Policy | 0.665084 |
+| Assignment | 1.13843 |
+| Fix-Async | 0.476134 |
+| Fix-Sync | 0.512733 |
+| Fix-Assign | 0.419653 |
+| Baseline | 0.835837 |
 
 ### How to run the experiments
 
@@ -145,17 +139,28 @@ python3 main.py
 
 After the script finished, the results are shown in the terminal.
 
-From our experience, running the optimization requires less than one minute of computation.
+From our experience, running the optimization requires less than ten seconds.
 
 ### File Structure
 
     ros2-end-to-end-distributed
-    ├── 
-    │    
-    └──
-### Overview of the corresponding functions and algorithms
+    ├── system_configurations
+    │   └── indy.yaml
+    ├── buffer.py
+    ├── callback.py
+    ├── executor.py
+    ├── main.py
+    ├── node.py
+    ├── optimization.py
+    ├── publisher.py
+    ├── README.md
+    ├── subscription.py
+    ├── system.py
+    └── timer.py
 
-The file optimization.py corresponds to the optimization implementation and it includes comments that reference to the corresponding lemmas of the paper.
+### Overview of functions and lemmas
+
+The file optimization.py corresponds to the optimization implementation and it includes comments that reference to the corresponding lemmas of the paper in Lines 321-374
 
 ### System and run time details
 

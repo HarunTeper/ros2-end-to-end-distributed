@@ -1,7 +1,8 @@
 """Optimization class."""
 
-# import gurobipy as gp
-# from gurobipy import GRB
+import gurobipy as gp
+from gurobipy import GRB
+import tabulate
 
 from system import System
 from timer import Timer
@@ -23,7 +24,7 @@ class Optimization:
         print('----------------------------------------')
         print()
         print('Optimization:')
-        settings = ['nothing','dds', 'executor_policy', 'node_assignment', 'timer_periods', 'fix-assign', 'fix-async', 'fix-sync']
+        settings = ['dds','timer_periods', 'executor_policy', 'node_assignment', 'fix-async', 'fix-sync', 'fix-assign', 'nothing']
         results = []
         for setting in settings:
             print('----------------------------------------')
@@ -31,15 +32,18 @@ class Optimization:
             results.append(self.optimize(setting))
             print()
             print('----------------------------------------')
+        # print it as a table using tabulate
+        settings = ['DDS','Timer Periods', 'Policy', 'Assignment', 'Fix-Async', 'Fix-Sync', 'Fix-Assign', 'Baseline']
+        result_data = []
         for setting, result in zip(settings, results):
-            print(setting, result)
+            result_data.append([setting, result])
+        print(tabulate.tabulate(result_data, headers=['Configuration', 'UB']))
         print()
         print('----------------------------------------')
 
     def optimize(self, setting):
         """Optimize."""
         print('Setting:', setting)
-        return
 
         number_of_nodes = len(self.system.nodes)
         number_of_executors = 0
