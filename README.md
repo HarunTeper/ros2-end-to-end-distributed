@@ -29,7 +29,7 @@ This document is organized as follows:
     - [Authors](#authors)
     - [Acknowledgments](#acknowledgments) -->
 
-## How to setup the VM
+## (Option 1) How to setup the VM
 
 - Please download the [zip file](https://tu-dortmund.sciebo.de/s/1S6foIpL1Mhk9L5), which contains the virtual disk and the machine description.
 
@@ -43,7 +43,7 @@ This document is organized as follows:
 
 - Follow the instructions in [Gurobi Installation](#gurobi-installation).
 
-## How to setup the packages
+## (Option 2) How to setup the packages
 
 - Start a terminal (Press CTRL+Shift+T) and run the following commands:
 
@@ -67,7 +67,7 @@ These instructions are based on the state of the 15.02.2024 of the Gurobi webpag
 
 - You should now be on your user home page https://portal.gurobi.com/iam/home.
 
-- Request a license. For example, press the **Request a free academic license** button (https://www.gurobi.com/academia/academic-program-and-licenses/).
+- Request a license. For example, go to **Request a free academic license** (https://www.gurobi.com/academia/academic-program-and-licenses/).
 
 - Choose an **Academic Named-User License** and click on **Learn More**.
 
@@ -79,7 +79,7 @@ These instructions are based on the state of the 15.02.2024 of the Gurobi webpag
 
   - Download Gurobi 10.0.3, which is an older version and can be found below the current version of Gurobi 11.0.0.
 
-  - Download the installer for your respective operating system. For the VM, it is the **gurobi10.0.3_linux64.tar.gz** file.
+  - Download Gurobi for your respective operating system. For the VM, it is the **gurobi10.0.3_linux64.tar.gz** file.
 
   - Extract the gurobi folder that is in your *Downloads* folder into your home directory.
 
@@ -89,8 +89,8 @@ These instructions are based on the state of the 15.02.2024 of the Gurobi webpag
 
     ```
     export GUROBI_HOME="/home/osboxes/gurobi1003/linux64"
-    export PATH="${PATH}_${GUROBI_HOME}/bin"
-    export LD_LIBRARY_PATH="${GUROBI_HOME}/lib"
+    export PATH="${PATH}:${GUROBI_HOME}/bin"
+    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
     ```
 
 - Revisit the page https://portal.gurobi.com/iam/home.

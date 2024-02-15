@@ -1,0 +1,154 @@
+executors:
+  - dds_mode: "synchronous"
+    task_policy: "timers_first"
+    nodes:
+    - name: "lidar_node"
+  - dds_mode: "synchronous"
+    task_policy: "timers_first"
+    nodes:
+    - name: "exact_time_subscriber_node"
+  - dds_mode: "synchronous"
+    task_policy: "timers_first"
+    nodes:
+    - name: "ray_ground_classifier_node"
+  - dds_mode: "synchronous"
+    task_policy: "timers_first"
+    nodes:
+    - name: "filter_node"
+  - dds_mode: "synchronous"
+    task_policy: "timers_first"
+    nodes:
+    - name: "clustering_node"
+  - dds_mode: "synchronous"
+    task_policy: "timers_first"
+    nodes:
+    - name: "tracking_node"
+  - dds_mode: "synchronous"
+    task_policy: "timers_first"
+    nodes:
+    - name: "planner_node"
+  - dds_mode: "synchronous"
+    task_policy: "timers_first"
+    nodes:
+    - name: "controller_node" 
+
+nodes:
+  - name: "lidar_node"
+    timers:
+      - phase: 0.0
+        period: 0.050
+        callback:
+          wcet: 0.001
+          dds_communication:
+            publishers:
+              - topic_name: "luminar_points"
+                dds_latency: 0.001930714
+
+  - name: "exact_time_subscriber_node"
+    subscriptions:
+      - topic_name: "luminar_points"
+        buffer_size: 1
+        callback:
+          wcet: 0.008322477
+          dds_communication:
+            publishers:
+              - topic_name: "geo_filtered_points"
+                dds_latency: 0.002215147
+
+  - name: "ray_ground_classifier_node"
+    subscriptions:
+      - topic_name: "geo_filtered_points"
+        buffer_size: 1
+        callback:
+          wcet: 0.005868673
+          dds_communication:
+            publishers:
+              - topic_name: "points_nonground"
+                dds_latency: 0.003475904
+
+  - name: "filter_node"
+    subscriptions:
+      - topic_name: "points_nonground"
+        buffer_size: 1
+        callback:
+          wcet: 0.004262447
+          dds_communication:
+            publishers: 
+              - topic_name: "points_filtered"
+                dds_latency: 0.006809235
+
+  - name: "clustering_node"
+    subscriptions:
+      - topic_name: "points_filtered"
+        buffer_size: 1
+        callback:
+          wcet: 0.030157566
+          dds_communication:
+            publishers: 
+              - topic_name: "detected_objects_clustering"
+                dds_latency: 0.010717392
+
+  - name: "tracking_node"
+    subscriptions:
+      - topic_name: "detected_objects_clustering"
+        buffer_size: 1
+        callback:
+          wcet: 0.000285
+          intra_node_communication:
+            write_buffers: 
+              - buffer_name: "detected_objects_buffer"
+                intra_node_write_latency: 0.0
+    timers:
+      - phase: 0.0
+        period: 0.025
+        callback:
+          wcet: 0.011332989
+          dds_communication:
+            publishers: 
+              - topic_name: "predicted_objects"
+                dds_latency: 0.045783758
+          intra_node_communication:
+            read_buffers: 
+              - buffer_name: "detected_objects_buffer"
+
+  - name: "planner_node"
+    subscriptions:
+      - topic_name: "predicted_objects"
+        buffer_size: 1
+        callback:
+          wcet: 0.000258
+          intra_node_communication:
+            write_buffers: 
+              - buffer_name: "predicted_objects_buffer"
+                intra_node_write_latency: 0.0
+    timers:
+      - phase: 0.0
+        period: 0.075
+        callback:
+          wcet: 0.105455399
+          dds_communication:
+            publishers: 
+              - topic_name: "trajectory_performance"
+                dds_latency: 0.004575968
+          intra_node_communication:
+            read_buffers: 
+              - buffer_name: "predicted_objects_buffer"
+
+  - name: "controller_node"
+    subscriptions:
+      - topic_name: "trajectory_performance"
+        buffer_size: 1
+        callback:
+          wcet: 0.000007
+          intra_node_communication:
+            write_buffers: 
+              - buffer_name: "trajectory_performance_buffer"
+                intra_node_write_latency: 0.0
+    timers:
+      - phase: 0.0
+        period: 0.010
+        callback:
+          wcet: 0.004162312
+          intra_node_communication:
+            read_buffers: 
+              - buffer_name: "trajectory_performance_buffer"
