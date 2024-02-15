@@ -30,9 +30,9 @@ This document is organized as follows:
 
 - Start a terminal (Press CTRL+Shift+T) and run the following command:
 
-```
-./initialize.sh
-```
+  ```
+  ./initialize.sh
+  ```
 
 - Follow the instructions in [Gurobi Installation](#gurobi-installation).
 
