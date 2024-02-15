@@ -33,6 +33,7 @@ class Optimization:
             print()
             print('----------------------------------------')
         # print it as a table using tabulate
+        print()
         settings = ['DDS','Timer Periods', 'Policy', 'Assignment', 'Fix-Async', 'Fix-Sync', 'Fix-Assign', 'Baseline']
         result_data = []
         for setting, result in zip(settings, results):
