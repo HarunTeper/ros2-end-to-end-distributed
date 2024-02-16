@@ -26,15 +26,19 @@ This document is organized as follows:
 
 - Please download the [zip file](https://tu-dortmund.sciebo.de/s/1S6foIpL1Mhk9L5), which contains the virtual disk and the machine description.
 
+- Install VirtualBox https://www.virtualbox.org/.
+
+- Import the .ova file in Virtualbox and start the virtual machine.
+
 - The credentials are: ros2end2end/rtas2024 (user/password).
 
-- Start a terminal (Press CTRL+Shift+T) and run the following command:
+- Start a terminal (Press CTRL+Shift+T) in the virtual machine and run the following command:
 
   ```
   ./initialize.sh
   ```
 
-- Follow the instructions in [Gurobi Installation](#gurobi-installation).
+- Afterwards, you can use the README in the folder ros2-end-to-end-distributed to install Gurobi (see [Gurobi Installation](#gurobi-installation)) and run the experiments.
 
 ## (Option 2) How to setup the packages
 
@@ -47,11 +51,11 @@ This document is organized as follows:
   git clone https://github.com/HarunTeper/ros2-end-to-end-distributed.git
   ```
 
-- Follow the instructions in [Gurobi Installation](#gurobi-installation).
+- Afterwards, you can use the README in the folder ros2-end-to-end-distributed to install Gurobi (see [Gurobi Installation](#gurobi-installation)) and run the experiments.
 
 ## Gurobi Installation
 
-These instructions are based on the state of the 15.02.2024 of the Gurobi webpage. For this evaluation, Gurobi 10.0.3 is required.
+These instructions explain how to install Gurobi on the virtual machine. They are based on the state of the Gurobi webpage on 15.02.2024. For this evaluation, Gurobi 10.0.3 is required.
 
 - Go the the following page: https://www.gurobi.com/.
 
@@ -109,7 +113,7 @@ These instructions are based on the state of the 15.02.2024 of the Gurobi webpag
   gurobi.sh
   ```
 
-  If this command lists the configuration of your installation and opens a gurobi terminal, the installation is successful, and you may proceed to run the experiment.
+  If this command lists the configuration of your installation and opens a gurobi terminal, the installation is successful, and you may proceed to run the experiment. You may close the Gurobi terminal again.
 
 ## Experiment Overview
     
