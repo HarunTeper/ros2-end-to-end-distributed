@@ -100,7 +100,7 @@ nodes:
                 intra_node_write_latency: 0.0
     timers:
       - phase: 0.0
-        period: 0.025
+        period: 0.05
         callback:
           wcet: 0.011332989
           dds_communication:

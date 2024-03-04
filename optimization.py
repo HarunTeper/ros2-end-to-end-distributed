@@ -37,7 +37,7 @@ class Optimization:
         settings = ['DDS','Timer Periods', 'Policy', 'Assignment', 'Fix-Async', 'Fix-Sync', 'Fix-Assign', 'Baseline']
         result_data = []
         for setting, result in zip(settings, results):
-            result_data.append([setting, result])
+            result_data.append([setting, result*1000])
         print(tabulate.tabulate(result_data, headers=['Configuration', 'UB']))
         print()
         print('----------------------------------------')
@@ -113,9 +113,14 @@ class Optimization:
         if not optimize_node_assignment:
             model.addConstrs((gp.quicksum(node_executor_assignment[node, executor] for node in range(number_of_nodes)) <= 1 for executor in range(number_of_executors)), name='node_executor_assignment_sum')
         elif setting == 'node_assignment' or setting == 'fix-async' or setting == 'fix-sync':
-            model.addConstr(node_executor_assignment[4, 0] == 1)
-            model.addConstr(node_executor_assignment[5, 0] == 1)
-            model.addConstr((gp.quicksum(node_executor_assignment[node, 0] for node in range(number_of_nodes)) == 2))
+            model.addConstr(node_executor_assignment[6, 0] == 1)
+            model.addConstr((gp.quicksum(node_executor_assignment[node, 0] for node in range(number_of_nodes)) == 1))
+            model.addConstr(node_executor_assignment[4, 1]+node_executor_assignment[4, 2] == 1)
+            model.addConstr(node_executor_assignment[5, 1]+node_executor_assignment[5, 2] == 1)
+            model.addConstr((node_executor_assignment[4, 1] == 1) >> (gp.quicksum(node_executor_assignment[node, 1] for node in [0,1,2,3]) == 0))
+            model.addConstr((node_executor_assignment[4, 2] == 1) >> (gp.quicksum(node_executor_assignment[node, 2] for node in [0,1,2,3]) == 0))
+            model.addConstr((node_executor_assignment[5, 1] == 1) >> (gp.quicksum(node_executor_assignment[node, 1] for node in [0,1,2,3]) == 0))
+            model.addConstr((node_executor_assignment[5, 2] == 1) >> (gp.quicksum(node_executor_assignment[node, 2] for node in [0,1,2,3]) == 0))
         
         # the sum of the node_executor_assignment variables for each node must be 1
         model.addConstrs((gp.quicksum(node_executor_assignment[node, executor] for executor in range(number_of_executors)) == 1 for node in range(number_of_nodes)), name='node_executor_assignment_sum')
@@ -382,7 +387,6 @@ class Optimization:
 
         # solve model
         model.optimize()
-
         # check if model is feasible
         if model.status == GRB.INFEASIBLE:
             print('Model is infeasible')
