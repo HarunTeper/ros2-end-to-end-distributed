@@ -120,6 +120,20 @@ These instructions explain how to install Gurobi on the virtual machine. They ar
 The experiment involves running the optimization of the evaluation.
 Specifically, we provide a script that calculates the upper bound values (UB) of our system. The reference values can be found in the rightmost column in the table of our evaluation, and are as follows:
 
+
+| Configuration | UB |
+|---|---|
+| DDS | 696.045 |
+| Timer Periods | 668.146 |
+| Policy | 665.084 |
+| Assignment | 832.429 |
+| Fix-Async | 416.177 |
+| Fix-Sync | 493.984 |
+| Fix-Assign | 419.653 |
+| Baseline | 835.837 |
+
+During the artifact evaluation process, we also had to update our optimization parameters. Below, you can find the values that were output by an earlier commit in this repository:
+
 | Configuration | UB |
 |---|---|
 | DDS | 0.671045 |
